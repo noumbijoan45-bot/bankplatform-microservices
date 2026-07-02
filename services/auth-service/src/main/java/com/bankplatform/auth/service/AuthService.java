@@ -1,10 +1,12 @@
 package com.bankplatform.auth.service;
 
+import com.bankplatform.auth.client.CustomerServiceClient;
 import com.bankplatform.auth.dto.AuthResponse;
 import com.bankplatform.auth.dto.LoginRequest;
 import com.bankplatform.auth.dto.RegisterRequest;
 import com.bankplatform.auth.entity.RefreshToken;
 import com.bankplatform.auth.entity.User;
+import com.bankplatform.auth.entity.UserRole;
 import com.bankplatform.auth.repository.RefreshTokenRepository;
 import com.bankplatform.auth.repository.UserRepository;
 import com.bankplatform.auth.security.JwtService;
@@ -25,16 +27,19 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final CustomerServiceClient customerServiceClient;
 
     @Autowired
     public AuthService(UserRepository userRepository,
                        RefreshTokenRepository refreshTokenRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtService jwtService) {
+                       JwtService jwtService,
+                       CustomerServiceClient customerServiceClient) {
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.customerServiceClient = customerServiceClient;
     }
 
     @Value("${jwt.refresh-expiration}")
@@ -59,6 +64,17 @@ public class AuthService {
                 .build();
 
         user = userRepository.save(user);
+
+        // Si CLIENT → créer automatiquement le profil dans customer-service
+        if (user.getRole() == UserRole.CLIENT) {
+            customerServiceClient.createCustomerProfile(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPhoneNumber()
+            );
+        }
 
         // Générer les tokens
         return generateAuthResponse(user);

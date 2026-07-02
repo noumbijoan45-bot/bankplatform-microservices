@@ -199,3 +199,107 @@ Content-Type: application/json
 
 ### 21. Historique d'un compte
 GET http://localhost:8084/transactions/account/ACCOUNT_ID_ICI
+
+
+### ===== NOTIFICATION SERVICE TESTS =====
+
+### Health Check Notification
+GET http://localhost:8089/notifications/health
+
+###
+
+### Envoyer une notification SMS de test
+POST http://localhost:8089/notifications/send
+Content-Type: application/json
+
+{
+  "type": "SMS",
+  "recipient": "test-user-id",
+  "subject": "Test SMS",
+  "message": "Votre dépôt de 50000 XOF a été effectué avec succès. Réf: TXN-TEST-001"
+}
+
+###
+
+### Envoyer une notification EMAIL de test
+POST http://localhost:8089/notifications/send
+Content-Type: application/json
+
+{
+  "type": "EMAIL",
+  "recipient": "test@bank.com",
+  "subject": "Confirmation transaction",
+  "message": "Votre transaction a été traitée avec succès."
+}
+
+###
+
+### Notification transaction (format Kafka)
+POST http://localhost:8089/notifications/transaction
+Content-Type: application/json
+
+{
+  "transactionId": "test-123",
+  "type": "DEPOT",
+  "amount": 25000,
+  "currency": "XOF",
+  "recipient": "client-id",
+  "accountNumber": "BNK123456789"
+}
+
+###
+
+### Voir l'historique de toutes les notifications
+GET http://localhost:8089/notifications/history
+
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Admin",
+  "lastName": "Super",
+  "email": "admin@bank.com",
+  "password": "admin1234",
+  "role": "SUPER_ADMIN"
+}
+
+
+
+### ===== CRÉER UN COMPTE ADMIN =====
+
+### Créer un Super Admin
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Admin",
+  "lastName": "Super",
+  "email": "admin@bank.com",
+  "password": "admin1234",
+  "role": "SUPER_ADMIN"
+}
+
+###
+
+### Créer un Opérateur Admin
+POST http://localhost:8081/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Operateur",
+  "lastName": "Admin",
+  "email": "operateur@bank.com",
+  "password": "oper1234",
+  "role": "OPERATOR_ADMIN"
+}
+
+###
+
+### Login Admin
+POST http://localhost:8081/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@bank.com",
+  "password": "admin1234"
+}

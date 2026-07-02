@@ -49,7 +49,7 @@ export default function Register() {
         <div style={{ textAlign: 'center', zIndex: 1 }}>
           <div style={{ fontSize: '4rem', marginBottom: '1.5rem' }}>🏦</div>
           <h1 style={{ color: 'white', fontSize: '2.2rem', fontWeight: 800, marginBottom: '1rem' }}>
-            BankPlatform
+            CorBank
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem', maxWidth: '300px', lineHeight: 1.6 }}>
             Rejoignez notre plateforme bancaire et profitez de services financiers modernes et sécurisés.
@@ -78,7 +78,7 @@ export default function Register() {
             <h2 style={{ color: 'white', fontSize: '1.7rem', fontWeight: 700, marginBottom: '0.5rem' }}>
               Créer un compte
             </h2>
-            <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Rejoignez BankPlatform aujourd'hui</p>
+            <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Rejoignez CorBank aujourd'hui</p>
           </div>
 
           {error && (

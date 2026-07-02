@@ -71,8 +71,10 @@ export default function Documents() {
 
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>📄 Documents & KYC</h1>
-        <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Soumettez et vérifiez vos documents par reconnaissance optique (OCR/IA)</p>
+        <div style={{ borderLeft: '4px solid #6366f1', paddingLeft: '1rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>Documents & KYC</h1>
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Soumettez et vérifiez vos documents par reconnaissance optique (OCR/IA)</p>
+        </div>
       </div>
 
       {error && (

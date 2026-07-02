@@ -72,8 +72,10 @@ export default function Customers() {
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
 
       <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>👥 Gestion des Clients</h1>
-        <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Gérez et vérifiez les comptes clients</p>
+        <div style={{ borderLeft: '4px solid #6366f1', paddingLeft: '1rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>Gestion des Clients</h1>
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Gérez et vérifiez les comptes clients</p>
+        </div>
       </div>
 
       {/* Stats */}

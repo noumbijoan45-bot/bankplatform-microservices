@@ -35,7 +35,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar">
-      <Link to="/dashboard" className="navbar-brand">🏦 BankPlatform</Link>
+      <Link to="/dashboard" className="navbar-brand">🏦 CorBank</Link>
 
       <ul className="navbar-links">
         <li><Link to="/dashboard">Tableau de bord</Link></li>

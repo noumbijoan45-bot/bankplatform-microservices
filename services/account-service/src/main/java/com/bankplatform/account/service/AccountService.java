@@ -60,6 +60,11 @@ public class AccountService {
                 .orElseThrow(() -> new RuntimeException("Compte introuvable : " + accountNumber)));
     }
 
+    public List<AccountResponse> getAllAccounts() {
+        return accountRepository.findAll()
+                .stream().map(AccountResponse::from).collect(Collectors.toList());
+    }
+
     public List<AccountResponse> getAccountsByCustomer(UUID customerId) {
         return accountRepository.findByCustomerId(customerId)
                 .stream().map(AccountResponse::from).collect(Collectors.toList());

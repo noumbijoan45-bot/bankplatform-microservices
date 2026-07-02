@@ -1,0 +1,135 @@
+@startuml DiagrammeCasDUtilisation
+title Diagramme des Cas d'Utilisation — Plateforme Bancaire BankPlatform
+
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor #EEF2FF
+  BorderColor #6366F1
+  FontColor #0F172A
+}
+skinparam actor {
+  BackgroundColor #6366F1
+  FontColor white
+}
+
+' ==================== ACTEURS ====================
+actor "Client"            as CLIENT
+actor "Super Admin"       as ADMIN
+actor "Opérateur Admin"   as OP_ADMIN
+actor "Opérateur Analyst" as OP_ANALYST
+actor "Système OCR/IA"    as OCR
+
+' ==================== AUTHENTIFICATION ====================
+rectangle "Authentification" {
+  usecase "S'inscrire"          as UC_REGISTER
+  usecase "Se connecter"        as UC_LOGIN
+  usecase "Se déconnecter"      as UC_LOGOUT
+  usecase "Rafraîchir le token" as UC_REFRESH
+}
+
+' ==================== GESTION DES COMPTES ====================
+rectangle "Gestion des Comptes" {
+  usecase "Ouvrir un compte"       as UC_OPEN_ACCOUNT
+  usecase "Consulter ses comptes"  as UC_VIEW_ACCOUNTS
+  usecase "Voir tous les comptes"  as UC_VIEW_ALL_ACCOUNTS
+  usecase "Bloquer un compte"      as UC_FREEZE
+  usecase "Fermer un compte"       as UC_CLOSE
+}
+
+' ==================== TRANSACTIONS ====================
+rectangle "Transactions" {
+  usecase "Effectuer un dépôt"     as UC_DEPOT
+  usecase "Effectuer un retrait"   as UC_RETRAIT
+  usecase "Faire un virement"      as UC_VIREMENT
+  usecase "Consulter l'historique" as UC_HISTORY
+}
+
+' ==================== PRÊTS ====================
+rectangle "Gestion des Prêts" {
+  usecase "Demander un prêt"        as UC_LOAN_REQUEST
+  usecase "Consulter ses prêts"     as UC_VIEW_LOANS
+  usecase "Valider un prêt"         as UC_APPROVE_LOAN
+  usecase "Rejeter un prêt"         as UC_REJECT_LOAN
+  usecase "Voir toutes les demandes" as UC_ALL_LOANS
+}
+
+' ==================== DOCUMENTS ====================
+rectangle "Documents & KYC" {
+  usecase "Uploader un document" as UC_UPLOAD_DOC
+  usecase "Vérification KYC"     as UC_KYC
+  usecase "Analyser par OCR"     as UC_OCR
+}
+
+' ==================== CLIENTS ====================
+rectangle "Gestion des Clients" {
+  usecase "Voir tous les clients"  as UC_VIEW_CUSTOMERS
+  usecase "Vérifier un client"     as UC_VERIFY_CUSTOMER
+  usecase "Suspendre un client"    as UC_SUSPEND_CUSTOMER
+}
+
+' ==================== NOTIFICATIONS ====================
+rectangle "Notifications" {
+  usecase "Recevoir des notifications" as UC_NOTIF
+}
+
+' ==================== RELATIONS CLIENT ====================
+CLIENT --> UC_REGISTER
+CLIENT --> UC_LOGIN
+CLIENT --> UC_LOGOUT
+CLIENT --> UC_OPEN_ACCOUNT
+CLIENT --> UC_VIEW_ACCOUNTS
+CLIENT --> UC_DEPOT
+CLIENT --> UC_RETRAIT
+CLIENT --> UC_VIREMENT
+CLIENT --> UC_HISTORY
+CLIENT --> UC_LOAN_REQUEST
+CLIENT --> UC_VIEW_LOANS
+CLIENT --> UC_UPLOAD_DOC
+CLIENT --> UC_KYC
+CLIENT --> UC_NOTIF
+CLIENT --> UC_REFRESH
+
+' ==================== RELATIONS ADMIN ====================
+ADMIN --> UC_LOGIN
+ADMIN --> UC_VIEW_ALL_ACCOUNTS
+ADMIN --> UC_VIEW_CUSTOMERS
+ADMIN --> UC_VERIFY_CUSTOMER
+ADMIN --> UC_SUSPEND_CUSTOMER
+ADMIN --> UC_ALL_LOANS
+ADMIN --> UC_APPROVE_LOAN
+ADMIN --> UC_REJECT_LOAN
+ADMIN --> UC_FREEZE
+ADMIN --> UC_CLOSE
+
+' ==================== RELATIONS OPERATEUR ADMIN ====================
+OP_ADMIN --> UC_LOGIN
+OP_ADMIN --> UC_VIEW_CUSTOMERS
+OP_ADMIN --> UC_VERIFY_CUSTOMER
+OP_ADMIN --> UC_SUSPEND_CUSTOMER
+OP_ADMIN --> UC_ALL_LOANS
+OP_ADMIN --> UC_APPROVE_LOAN
+OP_ADMIN --> UC_REJECT_LOAN
+OP_ADMIN --> UC_VIEW_ALL_ACCOUNTS
+
+' ==================== RELATIONS OPERATEUR ANALYST ====================
+OP_ANALYST --> UC_LOGIN
+OP_ANALYST --> UC_ALL_LOANS
+OP_ANALYST --> UC_APPROVE_LOAN
+OP_ANALYST --> UC_REJECT_LOAN
+
+' ==================== SYSTEME OCR ====================
+OCR --> UC_OCR
+UC_KYC ..> UC_OCR : <<include>>
+UC_UPLOAD_DOC ..> UC_OCR : <<include>>
+
+' ==================== INCLUDES ====================
+UC_DEPOT ..> UC_HISTORY : <<extend>>
+UC_RETRAIT ..> UC_HISTORY : <<extend>>
+UC_VIREMENT ..> UC_HISTORY : <<extend>>
+UC_LOAN_REQUEST ..> UC_NOTIF : <<extend>>
+UC_APPROVE_LOAN ..> UC_NOTIF : <<extend>>
+UC_REJECT_LOAN ..> UC_NOTIF : <<extend>>
+
+@enduml

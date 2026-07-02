@@ -3,12 +3,12 @@ import { useAuth } from '../context/AuthContext'
 import { loanApi } from '../api/axios'
 
 const statusConfig = {
-  SUBMITTED:    { bg: '#eff6ff', color: '#1d4ed8', label: 'Soumis', icon: '📤' },
-  UNDER_REVIEW: { bg: '#fffbeb', color: '#d97706', label: 'En révision', icon: '🔍' },
-  APPROVED:     { bg: '#f0fdf4', color: '#16a34a', label: 'Approuvé', icon: '✅' },
-  REJECTED:     { bg: '#fef2f2', color: '#dc2626', label: 'Rejeté', icon: '❌' },
-  ACTIVE:       { bg: '#f0fdf4', color: '#15803d', label: 'Actif', icon: '🟢' },
-  CLOSED:       { bg: '#f8fafc', color: '#64748b', label: 'Clôturé', icon: '🔒' },
+  SUBMITTED:    { bg: '#eff6ff', color: '#1d4ed8', label: 'Soumis' },
+  UNDER_REVIEW: { bg: '#fffbeb', color: '#d97706', label: 'En révision' },
+  APPROVED:     { bg: '#f0fdf4', color: '#16a34a', label: 'Approuvé' },
+  REJECTED:     { bg: '#fef2f2', color: '#dc2626', label: 'Rejeté' },
+  ACTIVE:       { bg: '#f0fdf4', color: '#15803d', label: 'Actif' },
+  CLOSED:       { bg: '#f8fafc', color: '#64748b', label: 'Clôturé' },
 }
 
 function calcMonthly(amount, rate, months) {
@@ -76,8 +76,13 @@ export default function Loans() {
 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>📋 Mes Prêts</h1>
+        <div style={{
+          borderLeft: '4px solid #6366f1',
+          paddingLeft: '1rem',
+        }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>
+            Mes Prêts
+          </h1>
           <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{loans.length} demande(s) de prêt</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} style={{
@@ -92,12 +97,12 @@ export default function Loans() {
       {/* Stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'Prêts actifs', value: activeLoans, icon: '🟢', color: '#16a34a', bg: '#f0fdf4' },
-          { label: 'Total emprunté', value: `${totalBorrowed.toLocaleString()} XOF`, icon: '💰', color: '#6366f1', bg: '#eef2ff' },
-          { label: 'Demandes', value: loans.length, icon: '📋', color: '#f59e0b', bg: '#fffbeb' },
+          { label: 'Prêts actifs',    value: activeLoans,                             color: '#16a34a', bg: '#f0fdf4' },
+          { label: 'Total emprunté',  value: `${totalBorrowed.toLocaleString()} XOF`, color: '#6366f1', bg: '#eef2ff' },
+          { label: 'Demandes',        value: loans.length,                             color: '#f59e0b', bg: '#fffbeb' },
         ].map((s, i) => (
           <div key={i} style={{ background: 'white', borderRadius: '12px', padding: '1.25rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <div style={{ width: 44, height: 44, borderRadius: '10px', background: s.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>{s.icon}</div>
+            <div style={{ width: 44, height: 44, borderRadius: '10px', background: s.bg, flexShrink: 0 }} />
             <div>
               <p style={{ color: '#64748b', fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>{s.label}</p>
               <p style={{ color: s.color, fontWeight: 700, fontSize: '1.1rem' }}>{s.value}</p>
@@ -106,8 +111,16 @@ export default function Loans() {
         ))}
       </div>
 
-      {error && <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '0.8rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.875rem' }}>⚠️ {error}</div>}
-      {success && <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '0.8rem 1rem', marginBottom: '1rem', color: '#16a34a', fontSize: '0.875rem' }}>✅ {success}</div>}
+      {error && (
+        <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '10px', padding: '0.8rem 1rem', marginBottom: '1rem', color: '#dc2626', fontSize: '0.875rem' }}>
+          {error}
+        </div>
+      )}
+      {success && (
+        <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', padding: '0.8rem 1rem', marginBottom: '1rem', color: '#16a34a', fontSize: '0.875rem' }}>
+          {success}
+        </div>
+      )}
 
       {/* Formulaire */}
       {showForm && (
@@ -116,8 +129,8 @@ export default function Loans() {
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '1rem', marginBottom: '1rem' }}>
               {[
-                { label: 'Montant (XOF)', name: 'amount', type: 'number', placeholder: '500000' },
-                { label: 'Objet du prêt', name: 'purpose', type: 'text', placeholder: 'Achat véhicule...' },
+                { label: 'Montant (XOF)', name: 'amount',  type: 'number', placeholder: '500000' },
+                { label: 'Objet du prêt', name: 'purpose', type: 'text',   placeholder: 'Achat véhicule...' },
               ].map(f => (
                 <div key={f.name}>
                   <label style={{ display: 'block', color: '#64748b', fontSize: '0.8rem', fontWeight: 600, marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{f.label}</label>
@@ -166,7 +179,6 @@ export default function Loans() {
       {/* Liste prêts */}
       {loans.length === 0 ? (
         <div style={{ background: 'white', borderRadius: '16px', padding: '4rem', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📋</div>
           <h3 style={{ color: '#0f172a', marginBottom: '0.5rem' }}>Aucun prêt</h3>
           <p style={{ color: '#64748b', marginBottom: '1.5rem' }}>Faites votre première demande de prêt</p>
         </div>
@@ -174,8 +186,9 @@ export default function Loans() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {loans.map(loan => {
             const sc = statusConfig[loan.status] || statusConfig.SUBMITTED
-            const progress = loan.status === 'ACTIVE' && loan.repayments ?
-              (loan.repayments.filter(r => r.status === 'PAID').length / loan.repayments.length) * 100 : 0
+            const progress = loan.status === 'ACTIVE' && loan.repayments
+              ? (loan.repayments.filter(r => r.status === 'PAID').length / loan.repayments.length) * 100
+              : 0
             return (
               <div key={loan.id} style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
@@ -186,13 +199,14 @@ export default function Loans() {
                     </p>
                   </div>
                   <span style={{ background: sc.bg, color: sc.color, fontSize: '0.8rem', fontWeight: 600, padding: '4px 12px', borderRadius: '20px' }}>
-                    {sc.icon} {sc.label}
+                    {sc.label}
                   </span>
                 </div>
+
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem', marginBottom: loan.status === 'ACTIVE' ? '1rem' : 0 }}>
                   {[
-                    { label: 'Taux', value: `${loan.interest_rate}%` },
-                    { label: 'Durée', value: `${loan.duration_months} mois` },
+                    { label: 'Taux',      value: `${loan.interest_rate}%` },
+                    { label: 'Durée',     value: `${loan.duration_months} mois` },
                     { label: 'Mensualité', value: loan.monthly_payment ? `${loan.monthly_payment?.toFixed(0).toLocaleString()} XOF` : '-' },
                     { label: 'Score crédit', value: loan.credit_score, color: loan.credit_score >= 650 ? '#16a34a' : '#d97706' },
                   ].map((d, i) => (
@@ -202,6 +216,7 @@ export default function Loans() {
                     </div>
                   ))}
                 </div>
+
                 {loan.status === 'ACTIVE' && (
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>

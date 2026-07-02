@@ -14,16 +14,100 @@ const SERVICES_STATUS = [
   { name: 'Notification', url: 'http://localhost:8089/notifications/health' },
 ]
 
+// Icônes SVG inline — pas d'emojis
+const Icons = {
+  Logo: () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="2"/>
+      <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+      <line x1="12" y1="12" x2="12" y2="16"/>
+      <line x1="10" y1="14" x2="14" y2="14"/>
+    </svg>
+  ),
+  Dashboard: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1"/>
+      <rect x="14" y="3" width="7" height="7" rx="1"/>
+      <rect x="3" y="14" width="7" height="7" rx="1"/>
+      <rect x="14" y="14" width="7" height="7" rx="1"/>
+    </svg>
+  ),
+  Accounts: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="5" width="20" height="14" rx="2"/>
+      <line x1="2" y1="10" x2="22" y2="10"/>
+    </svg>
+  ),
+  Transactions: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 16V4m0 0L3 8m4-4l4 4"/>
+      <path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+    </svg>
+  ),
+  Loans: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="9" y1="13" x2="15" y2="13"/>
+      <line x1="9" y1="17" x2="15" y2="17"/>
+    </svg>
+  ),
+  Documents: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+      <polyline points="13 2 13 9 20 9"/>
+    </svg>
+  ),
+  Validation: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+  ),
+  Customers: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  ),
+  Bell: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </svg>
+  ),
+  Logout: () => (
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  ),
+  ChevronLeft: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  ),
+  ChevronRight: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  ),
+}
+
 const menuItems = [
-  { path: '/dashboard',    icon: '⊞',  label: 'Tableau de bord' },
-  { path: '/accounts',     icon: '💳',  label: 'Comptes' },
-  { path: '/transactions', icon: '↔',  label: 'Transactions' },
-  { path: '/loans',        icon: '📋',  label: 'Prêts' },
-  { path: '/documents',    icon: '📄',  label: 'Documents & KYC' },
+  { path: '/dashboard',    Icon: Icons.Dashboard,    label: 'Tableau de bord' },
+  { path: '/accounts',     Icon: Icons.Accounts,     label: 'Comptes' },
+  { path: '/transactions', Icon: Icons.Transactions, label: 'Transactions' },
+  { path: '/loans',        Icon: Icons.Loans,        label: 'Prêts' },
+  { path: '/documents',    Icon: Icons.Documents,    label: 'Documents & KYC' },
 ]
 
 const adminItems = [
-  { path: '/customers', icon: '👥', label: 'Clients' },
+  { path: '/loan-validation', Icon: Icons.Validation, label: 'Validation Prêts' },
+  { path: '/customers',       Icon: Icons.Customers,  label: 'Clients' },
 ]
 
 export default function Sidebar() {
@@ -70,7 +154,6 @@ export default function Sidebar() {
   const allUp = servicesStatus.length > 0 && servicesStatus.every(s => s.status === 'UP')
   const someDown = servicesStatus.some(s => s.status === 'DOWN')
   const unreadCount = notifications.filter(n => n.status === 'SENT').length
-
   const isAdmin = ['SUPER_ADMIN', 'OPERATOR_ADMIN', 'OPERATOR_ANALYST'].includes(user?.role)
 
   const handleLogout = () => {
@@ -84,7 +167,7 @@ export default function Sidebar() {
     <>
     <aside style={{
       width: collapsed ? '72px' : '240px',
-      minHeight: '100vh',
+      height: '100vh',
       background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
       display: 'flex',
       flexDirection: 'column',
@@ -94,6 +177,8 @@ export default function Sidebar() {
       top: 0,
       zIndex: 100,
       boxShadow: '4px 0 24px rgba(0,0,0,0.18)',
+      overflowY: 'auto',
+      overflowX: 'hidden',
     }}>
 
       {/* Logo + collapse */}
@@ -103,30 +188,42 @@ export default function Sidebar() {
         justifyContent: collapsed ? 'center' : 'space-between',
         padding: '1.2rem 1rem',
         borderBottom: '1px solid rgba(255,255,255,0.07)',
+        flexShrink: 0,
       }}>
-        {!collapsed && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-            <span style={{ fontSize: '1.5rem' }}>🏦</span>
-            <span style={{ color: 'white', fontWeight: 700, fontSize: '1.05rem', letterSpacing: '0.5px' }}>
-              BankPlatform
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: 'white' }}>
+          <Icons.Logo />
+          {!collapsed && (
+            <span style={{ fontWeight: 700, fontSize: '1.05rem', letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
+              CorBank
             </span>
-          </div>
+          )}
+        </div>
+        {!collapsed && (
+          <button
+            onClick={() => setCollapsed(true)}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              border: 'none', borderRadius: '6px',
+              color: 'white', cursor: 'pointer',
+              padding: '5px 6px', display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+            }}>
+            <Icons.ChevronLeft />
+          </button>
         )}
-        {collapsed && <span style={{ fontSize: '1.5rem' }}>🏦</span>}
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            background: 'rgba(255,255,255,0.08)',
-            border: 'none',
-            borderRadius: '6px',
-            color: 'white',
-            cursor: 'pointer',
-            padding: '4px 8px',
-            fontSize: '0.8rem',
-            display: collapsed ? 'none' : 'block',
-          }}>
-          ◀
-        </button>
+        {collapsed && (
+          <button
+            onClick={() => setCollapsed(false)}
+            style={{
+              background: 'rgba(255,255,255,0.08)',
+              border: 'none', borderRadius: '6px',
+              color: 'white', cursor: 'pointer',
+              padding: '5px 6px', display: 'flex',
+              alignItems: 'center', justifyContent: 'center',
+            }}>
+            <Icons.ChevronRight />
+          </button>
+        )}
       </div>
 
       {/* Profil utilisateur */}
@@ -136,6 +233,7 @@ export default function Sidebar() {
           margin: '0.8rem',
           background: 'rgba(255,255,255,0.05)',
           borderRadius: '10px',
+          flexShrink: 0,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem' }}>
             <div style={{
@@ -157,11 +255,14 @@ export default function Sidebar() {
             {/* Cloche notifications */}
             <div style={{ position: 'relative' }}>
               <button onClick={() => setShowNotif(!showNotif)} style={{
-                background: 'rgba(255,255,255,0.08)', border: 'none',
-                borderRadius: '8px', color: 'white', cursor: 'pointer',
-                padding: '6px 8px', fontSize: '1rem', position: 'relative',
+                background: showNotif ? 'rgba(99,102,241,0.25)' : 'rgba(255,255,255,0.08)',
+                border: 'none', borderRadius: '8px',
+                color: 'white', cursor: 'pointer',
+                padding: '7px', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                position: 'relative',
               }}>
-                🔔
+                <Icons.Bell />
                 {unreadCount > 0 && (
                   <span style={{
                     position: 'absolute', top: '-4px', right: '-4px',
@@ -220,115 +321,111 @@ export default function Sidebar() {
       )}
 
       {/* Navigation */}
-      <nav style={{ flex: 1, padding: '0.5rem 0.6rem', overflowY: 'auto' }}>
+      <nav style={{ flex: 1, padding: '0.5rem 0.6rem' }}>
         {!collapsed && (
-          <div style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '1px', padding: '0.5rem 0.6rem 0.3rem', textTransform: 'uppercase' }}>
+          <div style={{ color: '#475569', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '1px', padding: '0.5rem 0.6rem 0.3rem', textTransform: 'uppercase' }}>
             Navigation
           </div>
         )}
 
-        {menuItems.map(item => (
+        {menuItems.map(({ path, Icon, label }) => (
           <Link
-            key={item.path}
-            to={item.path}
-            title={collapsed ? item.label : ''}
+            key={path}
+            to={path}
+            title={collapsed ? label : ''}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem',
-              padding: collapsed ? '0.75rem' : '0.7rem 0.8rem',
+              padding: collapsed ? '0.75rem' : '0.65rem 0.8rem',
               borderRadius: '8px',
               marginBottom: '2px',
               textDecoration: 'none',
-              color: isActive(item.path) ? 'white' : '#94a3b8',
-              background: isActive(item.path)
+              color: isActive(path) ? 'white' : '#94a3b8',
+              background: isActive(path)
                 ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
                 : 'transparent',
               transition: 'all 0.15s',
               justifyContent: collapsed ? 'center' : 'flex-start',
-              fontWeight: isActive(item.path) ? 600 : 400,
-              fontSize: '0.9rem',
+              fontWeight: isActive(path) ? 600 : 400,
+              fontSize: '0.875rem',
             }}
             onMouseEnter={e => {
-              if (!isActive(item.path))
-                e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
+              if (!isActive(path)) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
             }}
             onMouseLeave={e => {
-              if (!isActive(item.path))
-                e.currentTarget.style.background = 'transparent'
+              if (!isActive(path)) e.currentTarget.style.background = 'transparent'
             }}
           >
-            <span style={{ fontSize: '1.1rem', flexShrink: 0 }}>{item.icon}</span>
-            {!collapsed && <span>{item.label}</span>}
+            <span style={{ flexShrink: 0, display: 'flex' }}><Icon /></span>
+            {!collapsed && <span>{label}</span>}
           </Link>
         ))}
 
         {isAdmin && (
           <>
             {!collapsed && (
-              <div style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '1px', padding: '0.8rem 0.6rem 0.3rem', textTransform: 'uppercase' }}>
+              <div style={{ color: '#475569', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '1px', padding: '0.8rem 0.6rem 0.3rem', textTransform: 'uppercase' }}>
                 Administration
               </div>
             )}
-            {adminItems.map(item => (
+            {adminItems.map(({ path, Icon, label }) => (
               <Link
-                key={item.path}
-                to={item.path}
-                title={collapsed ? item.label : ''}
+                key={path}
+                to={path}
+                title={collapsed ? label : ''}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.75rem',
-                  padding: collapsed ? '0.75rem' : '0.7rem 0.8rem',
+                  padding: collapsed ? '0.75rem' : '0.65rem 0.8rem',
                   borderRadius: '8px',
                   marginBottom: '2px',
                   textDecoration: 'none',
-                  color: isActive(item.path) ? 'white' : '#94a3b8',
-                  background: isActive(item.path)
+                  color: isActive(path) ? 'white' : '#94a3b8',
+                  background: isActive(path)
                     ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
                     : 'transparent',
-                  justifyContent: collapsed ? 'center' : 'flex-start',
-                  fontWeight: isActive(item.path) ? 600 : 400,
-                  fontSize: '0.9rem',
                   transition: 'all 0.15s',
-                }}>
-                <span style={{ fontSize: '1.1rem' }}>{item.icon}</span>
-                {!collapsed && <span>{item.label}</span>}
+                  justifyContent: collapsed ? 'center' : 'flex-start',
+                  fontWeight: isActive(path) ? 600 : 400,
+                  fontSize: '0.875rem',
+                }}
+                onMouseEnter={e => {
+                  if (!isActive(path)) e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
+                }}
+                onMouseLeave={e => {
+                  if (!isActive(path)) e.currentTarget.style.background = 'transparent'
+                }}
+              >
+                <span style={{ flexShrink: 0, display: 'flex' }}><Icon /></span>
+                {!collapsed && <span>{label}</span>}
               </Link>
             ))}
           </>
         )}
       </nav>
 
-      {/* Bouton collapse (bas) quand collapsed */}
-      {collapsed && (
-        <button
-          onClick={() => setCollapsed(false)}
-          style={{
-            background: 'rgba(255,255,255,0.08)',
-            border: 'none', color: 'white', cursor: 'pointer',
-            padding: '0.6rem', fontSize: '0.9rem', margin: '0.5rem',
-            borderRadius: '8px',
-          }}>
-          ▶
-        </button>
-      )}
-
       {/* Statut système */}
-      <div style={{ padding: '0 0.8rem', marginBottom: '0.5rem' }}>
+      <div style={{ padding: '0 0.8rem', marginBottom: '0.5rem', flexShrink: 0 }}>
         <button
           onClick={() => setShowStatus(!showStatus)}
           style={{
-            width: '100%', background: 'rgba(255,255,255,0.05)',
+            width: '100%',
+            background: 'rgba(255,255,255,0.05)',
             border: `1px solid ${allUp ? 'rgba(34,197,94,0.3)' : someDown ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.1)'}`,
-            borderRadius: '8px', padding: collapsed ? '0.6rem' : '0.6rem 0.8rem',
-            cursor: 'pointer', display: 'flex', alignItems: 'center',
-            justifyContent: collapsed ? 'center' : 'space-between', gap: '0.5rem',
+            borderRadius: '8px',
+            padding: collapsed ? '0.6rem' : '0.6rem 0.8rem',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: collapsed ? 'center' : 'space-between',
+            gap: '0.5rem',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <span style={{
-              width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
+              width: 8, height: 8, borderRadius: '50%', flexShrink: 0, display: 'inline-block',
               background: allUp ? '#22c55e' : someDown ? '#ef4444' : '#f59e0b',
               boxShadow: `0 0 6px ${allUp ? '#22c55e' : someDown ? '#ef4444' : '#f59e0b'}`,
               animation: 'pulse 2s infinite',
@@ -346,13 +443,12 @@ export default function Sidebar() {
           )}
         </button>
 
-        {/* Panneau détail statut */}
         {showStatus && !collapsed && (
           <div style={{
             background: '#0f172a', border: '1px solid rgba(255,255,255,0.1)',
             borderRadius: '10px', padding: '0.75rem', marginTop: '0.5rem',
           }}>
-            <p style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.6rem' }}>
+            <p style={{ color: '#475569', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.6rem' }}>
               État des microservices
             </p>
             {servicesStatus.length === 0 ? (
@@ -363,7 +459,7 @@ export default function Sidebar() {
                   <span style={{ color: '#94a3b8', fontSize: '0.78rem' }}>{svc.name}</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <span style={{
-                      width: 6, height: 6, borderRadius: '50%',
+                      width: 6, height: 6, borderRadius: '50%', display: 'inline-block',
                       background: svc.status === 'UP' ? '#22c55e' : '#ef4444',
                     }} />
                     <span style={{
@@ -381,7 +477,7 @@ export default function Sidebar() {
       </div>
 
       {/* Déconnexion */}
-      <div style={{ padding: '0.8rem', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+      <div style={{ padding: '0.8rem', borderTop: '1px solid rgba(255,255,255,0.07)', flexShrink: 0 }}>
         <button
           onClick={handleLogout}
           style={{
@@ -396,18 +492,19 @@ export default function Sidebar() {
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'flex-start',
             gap: '0.6rem',
-            fontSize: '0.88rem',
+            fontSize: '0.875rem',
             fontWeight: 500,
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.2)'}
           onMouseLeave={e => e.currentTarget.style.background = 'rgba(239,68,68,0.12)'}
         >
-          <span>🚪</span>
+          <span style={{ display: 'flex' }}><Icons.Logout /></span>
           {!collapsed && <span>Déconnexion</span>}
         </button>
       </div>
     </aside>
+
     <style>{`
       @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     `}</style>

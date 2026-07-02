@@ -33,6 +33,12 @@ public class AccountController {
                 .body(accountService.openAccount(request));
     }
 
+    // Obtenir tous les comptes
+    @GetMapping
+    public ResponseEntity<List<AccountResponse>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
+    }
+
     // Obtenir un compte par ID
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> getAccountById(@PathVariable UUID id) {

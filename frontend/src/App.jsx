@@ -9,6 +9,7 @@ import Transactions from './pages/Transactions'
 import Loans from './pages/Loans'
 import Customers from './pages/Customers'
 import Documents from './pages/Documents'
+import LoanValidation from './pages/LoanValidation'
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth()
@@ -61,6 +62,9 @@ function AppRoutes() {
           } />
           <Route path="/customers" element={
             <AdminRoute><Customers /></AdminRoute>
+          } />
+          <Route path="/loan-validation" element={
+            <AdminRoute><LoanValidation /></AdminRoute>
           } />
 
           <Route path="/" element={<Navigate to={user ? "/dashboard" : "/login"} />} />

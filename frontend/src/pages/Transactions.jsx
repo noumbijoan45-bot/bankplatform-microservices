@@ -81,8 +81,8 @@ export default function Transactions() {
 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>💸 Transactions</h1>
+        <div style={{ borderLeft: '4px solid #6366f1', paddingLeft: '1rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>Transactions</h1>
           <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{transactions.length} transaction(s) enregistrée(s)</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} style={{

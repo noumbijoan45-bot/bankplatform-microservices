@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { accountApi } from '../api/axios'
+import { accountApi, customerApi } from '../api/axios'
 
 const typeColors = {
   COURANT:      { bg: '#eef2ff', color: '#6366f1', grad: 'linear-gradient(135deg,#4f46e5,#7c3aed)' },
@@ -20,8 +20,20 @@ export default function Accounts() {
 
   const fetchAccounts = async () => {
     try {
-      const res = await accountApi.get(`/accounts/customer/${user?.userId}`)
-      setAccounts(res.data || [])
+      const isAdmin = ['SUPER_ADMIN', 'OPERATOR_ADMIN', 'OPERATOR_ANALYST'].includes(user?.role)
+
+      if (isAdmin) {
+        // Admin : récupérer TOUS les comptes directement
+        const res = await accountApi.get('/accounts').catch(() => ({ data: [] }))
+        setAccounts(res.data || [])
+      } else {
+        // Client : récupérer ses propres comptes via userId
+        // D'abord trouver son customerId
+        const customerRes = await customerApi.get(`/customers/by-user/${user?.userId}`).catch(() => null)
+        const customerId = customerRes?.data?.id || user?.userId
+        const res = await accountApi.get(`/accounts/customer/${customerId}`)
+        setAccounts(res.data || [])
+      }
     } catch { setError('Impossible de charger les comptes') }
     finally { setLoading(false) }
   }
@@ -56,9 +68,9 @@ export default function Accounts() {
 
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-        <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>💳 Mes Comptes</h1>
-          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{accounts.length} compte(s) enregistré(s)</p>
+        <div style={{ borderLeft: '4px solid #6366f1', paddingLeft: '1rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>{['SUPER_ADMIN', 'OPERATOR_ADMIN', 'OPERATOR_ANALYST'].includes(user?.role) ? 'Tous les Comptes' : 'Mes Comptes'}</h1>
+          <p style={{ color: '#64748b', fontSize: '0.9rem' }}>{accounts.length} compte(s) {['SUPER_ADMIN', 'OPERATOR_ADMIN', 'OPERATOR_ANALYST'].includes(user?.role) ? 'sur la plateforme' : 'enregistré(s)'}</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} style={{
           background: showForm ? '#ef4444' : 'linear-gradient(135deg,#6366f1,#8b5cf6)',
@@ -150,6 +162,12 @@ export default function Accounts() {
                 </div>
                 {/* Partie basse — détails */}
                 <div style={{ background: 'white', padding: '1rem 1.5rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                  {['SUPER_ADMIN', 'OPERATOR_ADMIN', 'OPERATOR_ANALYST'].includes(user?.role) && acc.customerId && (
+                    <div style={{ gridColumn: '1 / -1', paddingBottom: '0.5rem', borderBottom: '1px solid #f1f5f9', marginBottom: '0.25rem' }}>
+                      <p style={{ color: '#94a3b8', fontSize: '0.72rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '2px' }}>Client (ID)</p>
+                      <p style={{ color: '#6366f1', fontSize: '0.75rem', fontFamily: 'monospace', fontWeight: 600 }}>{acc.customerId}</p>
+                    </div>
+                  )}
                   {[
                     { label: 'Limite / jour', value: `${acc.dailyLimit?.toLocaleString()} ${acc.currency}` },
                     { label: 'Limite / mois', value: `${acc.monthlyLimit?.toLocaleString()} ${acc.currency}` },

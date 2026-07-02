@@ -83,12 +83,17 @@ export default function Dashboard() {
 
       {/* Header */}
       <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.25rem' }}>
-          Bonjour, {user?.firstName} 👋
-        </h1>
-        <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
-          Voici un aperçu de votre activité financière
-        </p>
+        <div style={{ borderLeft: '4px solid #6366f1', paddingLeft: '1rem' }}>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 400, color: '#0f172a', marginBottom: '0.25rem' }}>
+            Bienvenue sur CorBank,{' '}
+            <span style={{ fontSize: '2rem', fontWeight: 700 }}>
+              {user?.firstName}
+            </span>
+          </h1>
+          <p style={{ color: '#64748b', fontSize: '0.95rem' }}>
+            Voici un aperçu de votre activité financière
+          </p>
+        </div>
       </div>
 
       {/* Stats Cards */}
